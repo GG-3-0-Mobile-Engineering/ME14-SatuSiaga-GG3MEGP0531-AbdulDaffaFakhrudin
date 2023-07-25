@@ -7,7 +7,9 @@ import androidx.databinding.DataBindingUtil
 import com.abduladf.satusiaga.R
 import com.abduladf.satusiaga.databinding.ActivityMainBinding
 import com.abduladf.satusiaga.feature.settings.SettingsActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

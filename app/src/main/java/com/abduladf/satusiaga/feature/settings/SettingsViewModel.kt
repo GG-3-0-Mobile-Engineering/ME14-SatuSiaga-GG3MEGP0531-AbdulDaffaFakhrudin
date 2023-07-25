@@ -1,25 +1,33 @@
 package com.abduladf.satusiaga.feature.settings
 
-import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abduladf.satusiaga.utils.UIPrefs
-import kotlinx.coroutines.flow.Flow
+import com.abduladf.satusiaga.domain.UserPreferences
+import com.abduladf.satusiaga.domain.usecase.UserPrefUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsViewModel : ViewModel() {
-    private lateinit var uiPrefs: UIPrefs
+@HiltViewModel
+class SettingsViewModel @Inject constructor(private val userPrefUseCase: UserPrefUseCase) : ViewModel() {
 
-    fun initUIPrefs(context: Context) {
-        uiPrefs = UIPrefs(context)
+    private val _isDarkModeEnabled = MutableLiveData<Boolean>()
+    val isDarkModeEnabled: LiveData<Boolean>
+        get() = _isDarkModeEnabled
+
+    init {
+        // Initialize the value of _isDarkModeEnabled using a coroutine scope
+        viewModelScope.launch {
+            _isDarkModeEnabled.value = userPrefUseCase.getUserPreferences().isDarkModeEnabled
+        }
     }
 
-    fun getUIMode(): Flow<Boolean> = uiPrefs.getUIMode
-
-    fun saveUIMode(isNightMode: Boolean) {
+    fun saveUserPreferences(isDarkModeEnabled: Boolean) {
         viewModelScope.launch {
-            uiPrefs.saveToThemePref(isNightMode)
-
+            userPrefUseCase.saveUserPreferences(UserPreferences(isDarkModeEnabled))
+            _isDarkModeEnabled.value = isDarkModeEnabled
         }
     }
 }
