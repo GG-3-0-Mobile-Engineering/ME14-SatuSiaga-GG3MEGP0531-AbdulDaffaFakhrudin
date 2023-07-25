@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,11 +13,14 @@
         android:theme="@style/Theme.SatuSiaga"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".feature.settings.SettingsActivity"
+            android:parentActivityName=".feature.main.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
