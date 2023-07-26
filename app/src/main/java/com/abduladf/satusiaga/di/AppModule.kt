@@ -40,4 +40,5 @@ object AppModule {
     fun provideUserPrefUseCase(userRepository: UserRepository): UserPrefUseCase {
         return UserPrefUseCase(userRepository)
     }
+
 }
