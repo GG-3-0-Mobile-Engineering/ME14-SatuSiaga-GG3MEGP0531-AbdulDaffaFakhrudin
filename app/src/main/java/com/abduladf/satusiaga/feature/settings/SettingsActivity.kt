@@ -1,10 +1,10 @@
 package com.abduladf.satusiaga.feature.settings
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.abduladf.satusiaga.R
 import com.abduladf.satusiaga.databinding.ActivitySettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,8 +20,6 @@ class SettingsActivity : AppCompatActivity() {
 
         val binding: ActivitySettingsBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_settings)
-
-        viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
         // Observe the isDarkModeEnabled LiveData to update the switch state
         viewModel.isDarkModeEnabled.observe(this) { isDarkModeEnabled ->

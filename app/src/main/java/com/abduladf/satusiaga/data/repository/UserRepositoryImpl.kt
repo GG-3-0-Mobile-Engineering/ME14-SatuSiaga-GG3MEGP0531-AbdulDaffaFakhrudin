@@ -9,7 +9,7 @@ import com.abduladf.satusiaga.domain.repository.UserRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-class DataStoreUserRepository @Inject constructor(private val dataStore: DataStore<Preferences>) : UserRepository {
+class UserRepositoryImpl @Inject constructor(private val dataStore: DataStore<Preferences>) : UserRepository {
 
     companion object {
         private val UI_MODE_KEY = booleanPreferencesKey("ui_mode")

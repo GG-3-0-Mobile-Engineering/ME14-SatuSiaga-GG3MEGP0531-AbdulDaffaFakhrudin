@@ -12,4 +12,6 @@
     <string name="haze">Haze</string>
     <string name="wind">Wind</string>
     <string name="volcano">Volcano</string>
+    <string name="list_of_disasters">List of Disasters</string>
+    <string name="no_data">No Data</string>
 </resources>
