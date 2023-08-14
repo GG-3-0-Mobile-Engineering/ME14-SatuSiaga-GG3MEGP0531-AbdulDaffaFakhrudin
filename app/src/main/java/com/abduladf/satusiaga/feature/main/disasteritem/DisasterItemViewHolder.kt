@@ -21,6 +21,7 @@ class DisasterItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             .into(binding.disasterItemImageview)
         binding.disasterItemTitle.text = item.title
         binding.disasterItemSubtitle.text = item.subtitle
+        binding.disasterItemDate.text = item.date
     }
 
 }

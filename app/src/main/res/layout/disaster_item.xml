@@ -25,14 +25,15 @@
                 android:layout_height="96dp"
                 android:scaleType="centerCrop"/>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="8dp">
 
                 <TextView
+                    app:layout_constraintTop_toTopOf="parent"
                     android:id="@+id/disaster_item_title"
                     android:maxLines="1"
                     android:ellipsize="end"
@@ -42,13 +43,23 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    app:layout_constraintTop_toBottomOf="@+id/disaster_item_title"
                     android:id="@+id/disaster_item_subtitle"
-                    android:maxLines="3"
+                    android:maxLines="2"
                     android:ellipsize="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"/>
-            </LinearLayout>
+
+                <TextView
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:id="@+id/disaster_item_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="italic"
+                    android:textAlignment="textEnd"
+                    android:textSize="12sp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

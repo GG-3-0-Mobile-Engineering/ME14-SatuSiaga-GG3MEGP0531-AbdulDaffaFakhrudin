@@ -55,7 +55,8 @@ class MainViewModel @Inject constructor(
                                     data.imageUrl,
                                     data.title,
                                     data.subtitle,
-                                    data.coordinates
+                                    data.coordinates,
+                                    data.date
                                 )
                             }
                         }
@@ -68,7 +69,7 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
-            Log.d("MainViewModel", "value of disasterItems: ${_disasterItems.value}")
+            Log.d("MainViewModel", "number of disaster items: ${_disasterItems.value.size}")
         }
     }
 
