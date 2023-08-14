@@ -38,4 +38,13 @@ object SearchItemsUtil {
         "Sumatera Barat" to "ID-SB",
     )
 
+    fun getKeyBySearchItemValue(value: String?): String? {
+        for ((key, value1) in searchItemsMap) {
+            if (value1 == value) {
+                return key
+            }
+        }
+        return null
+    }
+
 }
