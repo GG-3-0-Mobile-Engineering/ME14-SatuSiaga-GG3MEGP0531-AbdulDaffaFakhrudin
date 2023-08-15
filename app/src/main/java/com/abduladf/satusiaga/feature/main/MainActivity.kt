@@ -1,6 +1,7 @@
 package com.abduladf.satusiaga.feature.main
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.search.SearchView.TransitionState
@@ -161,9 +163,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(p0: GoogleMap) {
         mMap = p0
-//        val indonesia = LatLng(-0.789275, 113.921327)
-//        mMap?.addMarker(com.google.android.gms.maps.model.MarkerOptions().position(indonesia).title("Indonesia"))
-//        mMap?.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLng(indonesia))
+
+        //set map style checking if dark mode is enabled
+        val isDarkMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        if (isDarkMode == Configuration.UI_MODE_NIGHT_YES) {
+            mMap?.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_dark))
+        } else {
+            mMap?.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_light))
+        }
 
         //observe state of disaster items
         lifecycleScope.launch {
