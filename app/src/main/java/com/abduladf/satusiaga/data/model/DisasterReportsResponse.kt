@@ -31,7 +31,7 @@ data class DisasterReportsResponse(
             ) {
                 data class Geometry(
                     @SerializedName("coordinates")
-                    val coordinates: List<Double?>? = null,
+                    val coordinates: List<Double>,
                     @SerializedName("properties")
                     val properties: Properties? = null,
                     @SerializedName("type")

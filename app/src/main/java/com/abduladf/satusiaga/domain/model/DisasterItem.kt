@@ -5,6 +5,6 @@ data class DisasterItem(
     val imageUrl: String?,
     val title: String?,
     val subtitle: String?,
-    val coordinates: List<Double?>? = null,
+    val coordinates: List<Double>,
     val date: String? = null,
 )
