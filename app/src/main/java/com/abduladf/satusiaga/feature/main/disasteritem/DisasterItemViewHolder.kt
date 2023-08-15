@@ -1,7 +1,6 @@
 package com.abduladf.satusiaga.feature.main.disasteritem
 
 import android.view.View
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.abduladf.satusiaga.R
 import com.abduladf.satusiaga.databinding.DisasterItemBinding
