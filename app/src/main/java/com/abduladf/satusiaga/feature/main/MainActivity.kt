@@ -16,6 +16,12 @@ import com.abduladf.satusiaga.feature.main.disasteritem.DisasterItemAdapter
 import com.abduladf.satusiaga.feature.main.searchitem.SearchItemAdapter
 import com.abduladf.satusiaga.feature.settings.SettingsActivity
 import com.abduladf.satusiaga.utils.SearchItemsUtil.searchItemsMap
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.search.SearchView.TransitionState
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,15 +29,21 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
+    private var mMap: GoogleMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        //set map fragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.maps_fragment) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+        Log.d("MyMap showing", binding.mapsFragment.visibility.toString())
 
         //init disaster items with latest data
         viewModel.filterDisasterItems(null, null)
@@ -144,6 +156,41 @@ class MainActivity : AppCompatActivity() {
             binding.searchView.hide()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    override fun onMapReady(p0: GoogleMap) {
+        mMap = p0
+//        val indonesia = LatLng(-0.789275, 113.921327)
+//        mMap?.addMarker(com.google.android.gms.maps.model.MarkerOptions().position(indonesia).title("Indonesia"))
+//        mMap?.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLng(indonesia))
+
+        //observe state of disaster items
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.disasterItems.collect { newItems ->
+                    if (newItems.isNotEmpty()) {
+                        //take at most 5 latest disaster items
+                        val disasterItems = newItems.take(5)
+                        Log.d("MyMap", "values = $disasterItems")
+                        mMap?.clear()
+                        for (item in disasterItems) {
+                            mMap?.addMarker(MarkerOptions().position(LatLng(item.coordinates[1], item.coordinates[0])).title(item.title))
+                        }
+                        //move camera to the first disaster item
+                        val targetLatLng = LatLng(
+                            disasterItems[0].coordinates[1],
+                            disasterItems[0].coordinates[0]
+                        )
+                        val zoomLevel = 11.0f // You can adjust the zoom level as needed
+
+
+                        val cameraUpdate =
+                            CameraUpdateFactory.newLatLngZoom(targetLatLng, zoomLevel)
+                        mMap!!.animateCamera(cameraUpdate)
+                    }
+                }
+            }
         }
     }
 }
